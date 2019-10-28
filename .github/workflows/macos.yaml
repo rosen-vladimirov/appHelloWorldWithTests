@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - workflows-test
+
+jobs:
+  build:
+
+    runs-on: macOS-10.14
+
+    steps:
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - run: npm install -g nativescript
+    - run: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py --user
+    - run: pip install six --user
+    - uses: actions/checkout@v1
+    - run: npm install
+    - run: ls -la
+    - run: ls -la ../
+    - run: tns run ios --justlaunch
+    - run: tns test ios --justlaunch
